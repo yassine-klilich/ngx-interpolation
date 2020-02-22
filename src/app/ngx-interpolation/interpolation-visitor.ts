@@ -25,8 +25,10 @@ import {
   PropertyWrite,
   Quote,
 
-  AST
+  AST,
+  Expression
 } from '@angular/compiler';
+import { isDevMode } from '@angular/core';
 
 export class InterpolationVisitor implements AstVisitor {
 
@@ -34,7 +36,7 @@ export class InterpolationVisitor implements AstVisitor {
   private _context: any;
 
   visitInterpolation(ast: Interpolation, context: any) {
-    console.log(ast);
+    if(isDevMode()) console.log(ast);
     return ast;
   }
 
@@ -58,7 +60,7 @@ export class InterpolationVisitor implements AstVisitor {
   }
 
   visitMethodCall(ast: MethodCall, context: any) {
-    console.log(ast);
+    if(isDevMode()) console.log(ast);
   }
 
   visitBinary(ast: Binary, context: any) {

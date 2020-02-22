@@ -43,7 +43,7 @@ export class AppComponent {
     // let input: string = "{{fullName?.toString()}}";
     
     // 
-    let input: string = "{{}}";
+    let input: string = "I'm {{dd}}";
     
     let value: any = {
       fullName: { name: 'Yassine', lastName: 'Klilich', toString: function() { return `${this.name} ${this.lastName}` } },
