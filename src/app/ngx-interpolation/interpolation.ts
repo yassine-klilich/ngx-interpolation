@@ -15,7 +15,7 @@ export class Interpolation {
     this._interpolationVisitor = new InterpolationVisitor();
   }
 
-  /**
+  /** 
    * String interpolation
    * @param input The string input to be interpolated.
    * @param context Context to witch variables in the string input are resolved against.
