@@ -27,7 +27,7 @@ export class Interpolation {
     let astWithSource: ASTWithSource = this._parser.parseInterpolation(input, context, 0, interpolationConfig);
     
     if(isDevMode()) console.log(astWithSource);
-     
+    
     if(!astWithSource)
       return null;
     
