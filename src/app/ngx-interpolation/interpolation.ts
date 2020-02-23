@@ -6,7 +6,7 @@ import { InterpolationVisitor } from './interpolation-visitor';
   providedIn: 'root'
 })
 export class Interpolation {
-
+ 
   private _parser: Parser;
   private _interpolationVisitor: InterpolationVisitor;
   
