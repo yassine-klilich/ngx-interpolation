@@ -1,6 +1,8 @@
 import { 
-  // Discovered
   AstVisitor,
+  AST,
+  
+  // Discovered
   ASTWithSource,
   Interpolation,
   PropertyRead,
@@ -14,21 +16,17 @@ import {
   LiteralMap,
   SafePropertyRead,
   SafeMethodCall,
+  BindingPipe,
 
   // Undiscovered
   Chain,
   FunctionCall,
-  KeyedWrite,
-  BindingPipe,
   PrefixNot,
   NonNullAssert,
+  KeyedWrite,
   PropertyWrite,
-  Quote,
-
-  AST,
-  Expression
+  Quote
 } from '@angular/compiler';
-import { isDevMode } from '@angular/core';
 
 export class InterpolationVisitor implements AstVisitor {
 
@@ -36,7 +34,7 @@ export class InterpolationVisitor implements AstVisitor {
   private _context: any;
 
   visitInterpolation(ast: Interpolation, context: any) {
-    if(isDevMode()) console.log(ast);
+    console.log(ast);
     return ast;
   }
 
@@ -47,20 +45,34 @@ export class InterpolationVisitor implements AstVisitor {
     }
     
     if(!(ast.receiver instanceof ImplicitReceiver)) {
-      ast.receiver.visit(this, context);
+      this._context = ast.receiver.visit(this, context);
     }
-    this._context = this._context[ast.name];
+    if(ast.receiver instanceof ImplicitReceiver && this.isKeyExist(context, ast.name) === false){
+      throw `Can not find property '${ast.name}' in the context`;
+    }
+    if(!(ast.receiver instanceof ImplicitReceiver) && this.isKeyExist(this._context, ast.name) === false){
+      throw `Can not find property '${ast.name}'`;
+    }
     
-    if(this._targetAst == ast){
-      this._targetAst = null;
-      return this._context;
-    }
-
-    return null;
+    if(this._targetAst == ast) this._targetAst = null;
+    
+    return this._context[ast.name];
   }
 
   visitMethodCall(ast: MethodCall, context: any) {
-    if(isDevMode()) console.log(ast);
+    let args: Array<any> = new Array();
+    let argsLength: number = ast.args.length;
+    
+    for (let i = 0; i < argsLength; i++) {
+      args.push(ast.args[i].visit(this, context));
+    }
+
+    if(!(ast.receiver instanceof ImplicitReceiver)) {
+      ast.receiver.visit(this, context);
+    }
+
+    console.log(args);
+    console.log(ast);
   }
 
   visitBinary(ast: Binary, context: any) {
@@ -90,9 +102,11 @@ export class InterpolationVisitor implements AstVisitor {
   visitLiteralMap(ast: LiteralMap, context: any) {
     throw new Error("Method not implemented.");
   }
+  
   visitLiteralPrimitive(ast: LiteralPrimitive, context: any) {
-    throw new Error("Method not implemented.");
+    return ast.value;
   }
+
   visitPipe(ast: BindingPipe, context: any) {
     throw new Error("Method not implemented.");
   }
@@ -119,5 +133,14 @@ export class InterpolationVisitor implements AstVisitor {
   }
   visit?(ast: AST, context?: any) {
     throw new Error("Method not implemented.");
+  }
+
+  /**
+   * Check if a key exists in an object or not.
+   * @param obj where to look for the keys.
+   * @param key to look for.
+   */
+  isKeyExist(obj: any, key: string): boolean {
+    return Object.keys(obj).includes(key);
   }
 }

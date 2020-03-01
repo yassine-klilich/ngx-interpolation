@@ -42,16 +42,26 @@ export class AppComponent {
     // SafeMethodCall
     // let input: string = "{{fullName?.toString()}}";
     
+    // BindingPipe
+    // let input: string = "I'm {{firstName | pipe}}";
+
     // 
-    let input: string = "I'm {{dd}}";
+    // let input: string = "I'm {{fullName.name}} from {{getCountry(fullName.lastName)}}";
+    // let input: string = "I'm {{fullName.toString()}} from {{getCountry(fullName.name, 'Morocco')}}";
+    let input: string = "This is {{prop1.prop2.prop3}}";
     
-    let value: any = {
-      fullName: { name: 'Yassine', lastName: 'Klilich', toString: function() { return `${this.name} ${this.lastName}` } },
-      age: 23,
-      getCountry: (country) => country
+    let context: any = {
+      prop1: {
+        prop2: {
+          prop3: 'prop_3'
+        },
+        toString: function() { return `${this.prop2.prop3}` }
+      },
+      propNum: 10,
+      method_1: (param) => param
     };
 
-    let result = this._interpolation.interpolate(input, value);
+    let result = this._interpolation.interpolate(input, context);
 
     console.log(result);
   }
