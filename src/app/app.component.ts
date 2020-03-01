@@ -20,7 +20,8 @@ export class AppComponent {
     // let input: string = "Lorem ipsum {{method_1(prop1.prop2.prop3)}} sit amet"; // ==> Lorem ipsum prop_3 sit amet
     // let input: string = "Lorem ipsum {{prop5.method_1_of_prop5()}} sit amet"; // ==> Lorem ipsum Holla sit amet
     // let input: string = "Lorem ipsum {{prop5.method_2_of_prop5().prop}} sit amet"; // ==> Lorem ipsum READ OBJECT'S PROPERTY RETURNED FROM A METHOD sit amet
-    let input: string = "Lorem ipsum {{prop5.method_2_of_prop5().method()}} sit amet"; // ==> Lorem ipsum EXECUTE ME sit amet
+    // let input: string = "Lorem ipsum {{prop5.method_2_of_prop5().method()}} sit amet"; // ==> Lorem ipsum EXECUTE ME sit amet
+    let input: string = "Lorem ipsum {{method_2()()}} sit amet"; // ==> 
 
     let context: any = {
       prop1: {

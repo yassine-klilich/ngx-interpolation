@@ -41,31 +41,25 @@ export class InterpolationVisitor implements AstVisitor {
     let _context: any = context;
     
     if(!(ast.receiver instanceof ImplicitReceiver)) {
-      _context = ast.receiver.visit(this, context);
+      _context = this._visit(ast.receiver, context);
     }
     
     return _context[ast.name];
   }
-
   
   // MethodCall
   visitMethodCall(ast: MethodCall, context: any) {
+    const methodArgs: Array<any> = this._visitAll(ast.args, context);
     let _context: any = context;
-    let args: Array<any> = new Array();
-    let argsLength: number = ast.args.length;
-    
-    for (let i = 0; i < argsLength; i++) {
-      args.push(ast.args[i].visit(this, context));
-    }
     
     if(!(ast.receiver instanceof ImplicitReceiver)) {
-      _context = ast.receiver.visit(this, context);
+      _context = this._visit(ast.receiver, context);
     }
     if(typeof _context[ast.name] !== 'function'){
       throw new TypeError(`_ctx.${ast.name} is not a function`);
     }
 
-    return _context[ast.name].apply(_context, args);
+    return _context[ast.name].apply(_context, methodArgs);
   }
   
   // Binary
@@ -157,7 +151,19 @@ export class InterpolationVisitor implements AstVisitor {
   visitASTWithSource?(ast: ASTWithSource, context: any) {
     throw new Error("Method not implemented.");
   }
-  visit?(ast: AST, context?: any) {
-    throw new Error("Method not implemented.");
+
+  private _visit(ast: AST, context?: any): any {
+    return ast.visit(this, context);
+  }
+
+  private _visitAll(asts: AST[], context?: any): any {
+    const argsLength: number = asts.length;
+    const args: Array<any> = new Array();
+
+    for (let i = 0; i < argsLength; i++) {
+      args.push(this._visit(asts[i], context));
+    }
+
+    return args;
   }
 }
