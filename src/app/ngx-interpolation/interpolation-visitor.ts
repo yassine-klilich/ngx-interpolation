@@ -49,7 +49,7 @@ export class InterpolationVisitor implements AstVisitor {
   
   // MethodCall
   visitMethodCall(ast: MethodCall, context: any) {
-    const methodArgs: Array<any> = this._visitAll(ast.args, context);
+    const args: Array<any> = this._visitAll(ast.args, context);
     let _context: any = context;
     
     if(!(ast.receiver instanceof ImplicitReceiver)) {
@@ -59,7 +59,23 @@ export class InterpolationVisitor implements AstVisitor {
       throw new TypeError(`_ctx.${ast.name} is not a function`);
     }
 
-    return _context[ast.name].apply(_context, methodArgs);
+    let result: any = _context[ast.name].apply(_context, args);
+
+    return result;
+  }
+  
+  // FunctionCall
+  visitFunctionCall(ast: FunctionCall, context: any) {
+    const args: Array<any> = this._visitAll(ast.args, context);
+    // let result: FunctionCallResult = 
+    
+    let result: any = this._visit(ast.target, context);
+
+    while(typeof result == 'function'){
+      result = result.apply(undefined, args);
+    }
+    
+    return result;
   }
   
   // Binary
@@ -75,11 +91,6 @@ export class InterpolationVisitor implements AstVisitor {
   // Conditional
   visitConditional(ast: Conditional, context: any) {
     throw new Error("Method not implemented.");
-  }
-  
-  // FunctionCall
-  visitFunctionCall(ast: FunctionCall, context: any) {
-    console.log(ast);
   }
   
   // ImplicitReceiver

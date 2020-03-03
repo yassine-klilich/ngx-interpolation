@@ -21,7 +21,8 @@ export class AppComponent {
     // let input: string = "Lorem ipsum {{prop5.method_1_of_prop5()}} sit amet"; // ==> Lorem ipsum Holla sit amet
     // let input: string = "Lorem ipsum {{prop5.method_2_of_prop5().prop}} sit amet"; // ==> Lorem ipsum READ OBJECT'S PROPERTY RETURNED FROM A METHOD sit amet
     // let input: string = "Lorem ipsum {{prop5.method_2_of_prop5().method()}} sit amet"; // ==> Lorem ipsum EXECUTE ME sit amet
-    let input: string = "Lorem ipsum {{method_2()()}} sit amet"; // ==> 
+    // let input: string = "Lorem ipsum {{prop5.method_3_of_prop5()()}} sit amet"; // ==> Lorem ipsum Hola Primo sit amet
+    let input: string = "Lorem ipsum {{prop5.method_4_of_prop5()()()}} sit amet"; // ==> Lorem ipsum Lorem ipsum sit amet
 
     let context: any = {
       prop1: {
@@ -33,15 +34,18 @@ export class AppComponent {
       prop4: "Lorem ipsum",
       prop5: {
         method_1_of_prop5: () => 'Holla',
-        method_2_of_prop5: ()=> ({prop: "READ OBJECT'S PROPERTY RETURNED FROM A METHOD", method: () => 'EXECUTE ME' })
+        method_2_of_prop5: ()=> ({prop: "READ OBJECT'S PROPERTY RETURNED FROM A METHOD", method: () => 'EXECUTE ME' }),
+        method_3_of_prop5: () => {
+          return function(){ return 'Hola Primo' }
+        },
+        method_4_of_prop5: () => {
+          return function(){ return function(){ return context.prop4 }; }
+        }
       },
       propNum: 10,
-      method_1: param => param,
-      method_2: (param) => {
-        return () => param
-      }
+      method_1: param => param
     };
-
+    
     let result = this._interpolation.interpolate(input, context);
 
     // Log The Result
