@@ -22,7 +22,9 @@ export class AppComponent {
     // let input: string = "Lorem ipsum {{prop5.method_2_of_prop5().prop}} sit amet"; // ==> Lorem ipsum READ OBJECT'S PROPERTY RETURNED FROM A METHOD sit amet
     // let input: string = "Lorem ipsum {{prop5.method_2_of_prop5().method()}} sit amet"; // ==> Lorem ipsum EXECUTE ME sit amet
     // let input: string = "Lorem ipsum {{prop5.method_3_of_prop5()()}} sit amet"; // ==> Lorem ipsum Hola Primo sit amet
-    let input: string = "Lorem ipsum {{prop5.method_4_of_prop5()()()}} sit amet"; // ==> Lorem ipsum Lorem ipsum sit amet
+    // let input: string = "Lorem ipsum {{prop5.method_4_of_prop5()()()}} sit amet"; // ==> Lorem ipsum Lorem ipsum sit amet
+    // let input: string = "Lorem ipsum {{method_2()().method()}} sit amet"; // ==> Lorem ipsum 456 sit amet
+    let input: string = "{{1 + 1 + 1 / 2}}"; // ==> 
 
     let context: any = {
       prop1: {
@@ -43,7 +45,16 @@ export class AppComponent {
         }
       },
       propNum: 10,
-      method_1: param => param
+      method_1: param => param,
+      method_2: ()=>{
+        return function(){
+          return {
+            method: ()=>{
+              return '456'
+            }
+          }
+        }
+      }
     };
     
     let result = this._interpolation.interpolate(input, context);

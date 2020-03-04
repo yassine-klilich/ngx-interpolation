@@ -80,7 +80,61 @@ export class InterpolationVisitor implements AstVisitor {
   
   // Binary
   visitBinary(ast: Binary, context: any) {
-    throw new Error("Method not implemented.");
+    let leftValue: any = this._visit(ast.left, context);
+    let rightValue: any = this._visit(ast.right, context);
+    let result: any;
+    
+    switch (ast.operation) {
+      case '+':
+        result = leftValue + rightValue;
+        break;
+      case '-':
+        result = leftValue + rightValue;
+        break;
+      case '*':
+        result = leftValue + rightValue;
+        break;
+      case '/':
+        result = leftValue + rightValue;
+        break;
+      case '%':
+        result = leftValue + rightValue;
+        break;
+      case '&&':
+        result = leftValue + rightValue;
+        break;
+      case '||':
+        result = leftValue + rightValue;
+        break;
+      case '==':
+        result = leftValue + rightValue;
+        break;
+      case '!=':
+        result = leftValue + rightValue;
+        break;
+      case '===':
+        result = leftValue + rightValue;
+        break;
+      case '!==':
+        result = leftValue + rightValue;
+        break;
+      case '<':
+        result = leftValue + rightValue;
+        break;
+      case '>':
+        result = leftValue + rightValue;
+        break;
+      case '<=':
+        result = leftValue + rightValue;
+        break;
+      case '>=':
+        result = leftValue + rightValue;
+        break;
+      default:
+        throw new Error(`Unsupported operation ${ast.operation}`);
+    }
+
+    return result;
   }
   
   // Chain
