@@ -80,8 +80,8 @@ export class InterpolationVisitor implements AstVisitor {
   
   // Binary
   visitBinary(ast: Binary, context: any) {
-    let leftValue: any = this._visit(ast.left, context);
     let rightValue: any = this._visit(ast.right, context);
+    let leftValue: any = this._visit(ast.left, context);
     let result: any;
     
     switch (ast.operation) {
@@ -89,46 +89,46 @@ export class InterpolationVisitor implements AstVisitor {
         result = leftValue + rightValue;
         break;
       case '-':
-        result = leftValue + rightValue;
+        result = leftValue - rightValue;
         break;
       case '*':
-        result = leftValue + rightValue;
+        result = leftValue * rightValue;
         break;
       case '/':
-        result = leftValue + rightValue;
+        result = leftValue / rightValue;
         break;
       case '%':
-        result = leftValue + rightValue;
+        result = leftValue % rightValue;
         break;
       case '&&':
-        result = leftValue + rightValue;
+        result = leftValue && rightValue;
         break;
       case '||':
-        result = leftValue + rightValue;
+        result = leftValue || rightValue;
         break;
       case '==':
-        result = leftValue + rightValue;
+        result = leftValue == rightValue;
         break;
       case '!=':
-        result = leftValue + rightValue;
+        result = leftValue != rightValue;
         break;
       case '===':
-        result = leftValue + rightValue;
+        result = leftValue === rightValue;
         break;
       case '!==':
-        result = leftValue + rightValue;
+        result = leftValue !== rightValue;
         break;
       case '<':
-        result = leftValue + rightValue;
+        result = leftValue < rightValue;
         break;
       case '>':
-        result = leftValue + rightValue;
+        result = leftValue > rightValue;
         break;
       case '<=':
-        result = leftValue + rightValue;
+        result = leftValue <= rightValue;
         break;
       case '>=':
-        result = leftValue + rightValue;
+        result = leftValue >= rightValue;
         break;
       default:
         throw new Error(`Unsupported operation ${ast.operation}`);

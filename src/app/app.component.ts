@@ -24,7 +24,9 @@ export class AppComponent {
     // let input: string = "Lorem ipsum {{prop5.method_3_of_prop5()()}} sit amet"; // ==> Lorem ipsum Hola Primo sit amet
     // let input: string = "Lorem ipsum {{prop5.method_4_of_prop5()()()}} sit amet"; // ==> Lorem ipsum Lorem ipsum sit amet
     // let input: string = "Lorem ipsum {{method_2()().method()}} sit amet"; // ==> Lorem ipsum 456 sit amet
-    let input: string = "{{1 + 1 + 1 / 2}}"; // ==> 
+    // let input: string = "{{1 - 2 + '4'}}"; // ==> -14
+    // let input: string = "{{1 - 2 + method_2()().method()}}"; // ==> 455
+    let input: string = "{{1 - 2 + method_2()().method()}}"; // ==> 455
 
     let context: any = {
       prop1: {
@@ -50,7 +52,7 @@ export class AppComponent {
         return function(){
           return {
             method: ()=>{
-              return '456'
+              return 456
             }
           }
         }
