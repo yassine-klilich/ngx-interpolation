@@ -154,7 +154,10 @@ export class InterpolationVisitor implements AstVisitor {
   
   // KeyedRead
   visitKeyedRead(ast: KeyedRead, context: any) {
-    throw new Error("Method not implemented.");
+    let obj: any = this._visit(ast.obj, context);
+    let key: any = this._visit(ast.key, context);
+
+    return obj[key];
   }
   
   // KeyedWrite
@@ -165,10 +168,11 @@ export class InterpolationVisitor implements AstVisitor {
   // LiteralArray
   visitLiteralArray(ast: LiteralArray, context: any) {
     let results: Array<any> = new Array();
+    let expLength: number = ast.expressions.length;
 
-    ast.expressions.forEach((expression: AST)=>{
-      results.push(this._visit(expression, context));
-    })
+    for (let i = 0; i < expLength; i++) {
+      results.push(this._visit(ast.expressions[i], context));
+    }
 
     return results;
   }

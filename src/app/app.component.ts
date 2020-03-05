@@ -27,7 +27,9 @@ export class AppComponent {
     // let input: string = "{{1 - 2 + '4'}}"; // ==> -14
     // let input: string = "{{1 - 2 + method_2()().method()}}"; // ==> 455
     // let input: string = "{{[1, 2, 3]}}"; // ==> 1,2,3
-    let input: string = "{{[1, 2, 3].join('')}}"; // ==> 123
+    // let input: string = "{{[1, 2, 3].join('')}}"; // ==> 123
+    let input: string = "{{prop1.prop2['prop3']}}"; // prop_3
+
 
     let context: any = {
       prop1: {
