@@ -26,7 +26,8 @@ export class AppComponent {
     // let input: string = "Lorem ipsum {{method_2()().method()}} sit amet"; // ==> Lorem ipsum 456 sit amet
     // let input: string = "{{1 - 2 + '4'}}"; // ==> -14
     // let input: string = "{{1 - 2 + method_2()().method()}}"; // ==> 455
-    let input: string = "{{1 - 2 + method_2()().method()}}"; // ==> 455
+    // let input: string = "{{[1, 2, 3]}}"; // ==> 1,2,3
+    let input: string = "{{[1, 2, 3].join('')}}"; // ==> 123
 
     let context: any = {
       prop1: {

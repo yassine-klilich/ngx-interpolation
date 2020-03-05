@@ -164,7 +164,13 @@ export class InterpolationVisitor implements AstVisitor {
   
   // LiteralArray
   visitLiteralArray(ast: LiteralArray, context: any) {
-    throw new Error("Method not implemented.");
+    let results: Array<any> = new Array();
+
+    ast.expressions.forEach((expression: AST)=>{
+      results.push(this._visit(expression, context));
+    })
+
+    return results;
   }
   
   // LiteralMap
