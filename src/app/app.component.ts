@@ -6,12 +6,12 @@ import { Interpolation } from './ngx-interpolation/interpolation';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent { 
+export class AppComponent {
 
   constructor(private _interpolation: Interpolation) {
 
     ////------------------- Some Test Cases That I need to support for my library -------------------\\\\
-    
+
     // let input: string = "This is {{prop4}}"; // ==> This is Lorem ipsum
     // let input: string = "This is {{prop1.prop2.prop3}}"; // ==> This is prop_3
     // let input: string = "Lorem ipsum {{method_1('dolor')}} sit amet"; // ==> Lorem ipsum dolor sit amet
@@ -28,8 +28,10 @@ export class AppComponent {
     // let input: string = "{{1 - 2 + method_2()().method()}}"; // ==> 455
     // let input: string = "{{[1, 2, 3]}}"; // ==> 1,2,3
     // let input: string = "{{[1, 2, 3].join('')}}"; // ==> 123
-    let input: string = "{{prop1.prop2['prop3']}}"; // prop_3
-
+		let input: string = "{{prop1.prop2['prop3']}}"; // prop_3
+		// let input: string = "{{({ top: 10 })}}"; // ==> [object Object]     not quoted
+		// let input: string = "{{({ 'top': 10 })}}"; // ==> [object Object]     quoted
+		// let input: string = "{{{ top: 10 }.top}}";	// ==> 10
 
     let context: any = {
       prop1: {
@@ -61,7 +63,7 @@ export class AppComponent {
         }
       }
     };
-    
+
     let result = this._interpolation.interpolate(input, context);
 
     // Log The Result
@@ -95,9 +97,6 @@ export class AppComponent {
 // KeyedRead
 // let input: string = "{{fullName['name']}}";
 
-// KeyedRead
-// let input: string = "{{fullName['name']}}";
-
 // LiteralMap
 // let input: string = "{{({ top: 10 })}}";
 
@@ -114,6 +113,6 @@ export class AppComponent {
 // let input: string = "Lorem ipsum {{method_1('dolor')()}} sit amet";
 
 
-// 
+//
 // let input: string = "I'm {{fullName.name}} from {{getCountry(fullName.lastName)}}";
 // let input: string = "I'm {{fullName.toString()}} from {{getCountry(fullName.name, 'Morocco')}}";

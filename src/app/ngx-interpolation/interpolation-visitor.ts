@@ -1,7 +1,7 @@
-import { 
+import {
   AstVisitor,
   AST,
-  
+
   // Discovered
   ASTWithSource,
   Interpolation,
@@ -29,7 +29,7 @@ import {
 } from '@angular/compiler';
 
 export class InterpolationVisitor implements AstVisitor {
-  
+
   // Interpolation
   visitInterpolation(ast: Interpolation, context: any) {
     console.log(ast);
@@ -39,19 +39,19 @@ export class InterpolationVisitor implements AstVisitor {
   // PropertyRead
   visitPropertyRead(ast: PropertyRead, context: any) {
     let _context: any = context;
-    
+
     if(!(ast.receiver instanceof ImplicitReceiver)) {
       _context = this._visit(ast.receiver, context);
     }
-    
+
     return _context[ast.name];
   }
-  
+
   // MethodCall
   visitMethodCall(ast: MethodCall, context: any) {
     const args: Array<any> = this._visitAll(ast.args, context);
     let _context: any = context;
-    
+
     if(!(ast.receiver instanceof ImplicitReceiver)) {
       _context = this._visit(ast.receiver, context);
     }
@@ -63,27 +63,27 @@ export class InterpolationVisitor implements AstVisitor {
 
     return result;
   }
-  
+
   // FunctionCall
   visitFunctionCall(ast: FunctionCall, context: any) {
     const args: Array<any> = this._visitAll(ast.args, context);
-    // let result: FunctionCallResult = 
-    
+    // let result: FunctionCallResult =
+
     let result: any = this._visit(ast.target, context);
 
     while(typeof result == 'function'){
       result = result.apply(undefined, args);
     }
-    
+
     return result;
   }
-  
+
   // Binary
   visitBinary(ast: Binary, context: any) {
     let rightValue: any = this._visit(ast.right, context);
     let leftValue: any = this._visit(ast.left, context);
     let result: any;
-    
+
     switch (ast.operation) {
       case '+':
         result = leftValue + rightValue;
@@ -136,22 +136,22 @@ export class InterpolationVisitor implements AstVisitor {
 
     return result;
   }
-  
+
   // Chain
   visitChain(ast: Chain, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // Conditional
   visitConditional(ast: Conditional, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // ImplicitReceiver
   visitImplicitReceiver(ast: ImplicitReceiver, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // KeyedRead
   visitKeyedRead(ast: KeyedRead, context: any) {
     let obj: any = this._visit(ast.obj, context);
@@ -159,69 +159,64 @@ export class InterpolationVisitor implements AstVisitor {
 
     return obj[key];
   }
-  
+
   // KeyedWrite
   visitKeyedWrite(ast: KeyedWrite, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // LiteralArray
   visitLiteralArray(ast: LiteralArray, context: any) {
-    let results: Array<any> = new Array();
-    let expLength: number = ast.expressions.length;
-
-    for (let i = 0; i < expLength; i++) {
-      results.push(this._visit(ast.expressions[i], context));
-    }
-
-    return results;
+    return this._visitAll(ast.expressions, context);
   }
-  
+
   // LiteralMap
   visitLiteralMap(ast: LiteralMap, context: any) {
+		// const values: Array<any> = ast.values.map(ast => this._visit(ast, context));
+		// const keys: Array<string> = ;
     throw new Error("Method not implemented.");
   }
-  
+
   // LiteralPrimitive
   visitLiteralPrimitive(ast: LiteralPrimitive, context: any) {
     return ast.value;
   }
-  
+
   // Pipe
   visitPipe(ast: BindingPipe, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // PrefixNot
   visitPrefixNot(ast: PrefixNot, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // NonNullAssert
   visitNonNullAssert(ast: NonNullAssert, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // PropertyWrite
   visitPropertyWrite(ast: PropertyWrite, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // Quote
   visitQuote(ast: Quote, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // SafeMethodCall
   visitSafeMethodCall(ast: SafeMethodCall, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // SafePropertyRead
   visitSafePropertyRead(ast: SafePropertyRead, context: any) {
     throw new Error("Method not implemented.");
   }
-  
+
   // ASTWithSource
   visitASTWithSource?(ast: ASTWithSource, context: any) {
     throw new Error("Method not implemented.");
@@ -232,13 +227,6 @@ export class InterpolationVisitor implements AstVisitor {
   }
 
   private _visitAll(asts: AST[], context?: any): any {
-    const argsLength: number = asts.length;
-    const args: Array<any> = new Array();
-
-    for (let i = 0; i < argsLength; i++) {
-      args.push(this._visit(asts[i], context));
-    }
-
-    return args;
+    return asts.map(ast => this._visit(ast, context));
   }
 }
