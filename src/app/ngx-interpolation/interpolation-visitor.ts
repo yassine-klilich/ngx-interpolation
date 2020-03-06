@@ -144,7 +144,12 @@ export class InterpolationVisitor implements AstVisitor {
 
   // Conditional
   visitConditional(ast: Conditional, context: any) {
-    throw new Error("Method not implemented.");
+		let conditionResult: boolean = this._visit(ast.condition, context);
+    if(conditionResult){
+			return this._visit(ast.trueExp, context);
+		}else{
+			return this._visit(ast.falseExp, context);
+		}
   }
 
   // ImplicitReceiver

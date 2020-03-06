@@ -34,7 +34,11 @@ export class AppComponent {
 		// let input: string = "{{prop1.prop2['prop3']}}"; // prop_3
 		// let input: string = "{{({ top: 10 })}}"; // ==> [object Object]     not quoted
 		// let input: string = "{{({ 'top': 10 })}}"; // ==> [object Object]     quoted
-		let input: string = "{{{ top: 10 }.top}}";	// ==> 10
+		// let input: string = "{{{ top: 10 }.top}}";	// ==> 10
+		// let input: string = "{{(prop4 == 'prop_3') ? true : false}}";	// ==> false
+		// let input: string = "{{(prop1 == 'prop_3') ? true : false}}";	// ==> true
+		// let input: string = "{{(prop1.prop2.prop3 == 'prop_3') ? true : false}}";	// ==> true
+		let input: string = "{{(prop4 == 'Lorem ipsum') ? true : false}}";	// ==> true
 
     let context: any = {
       prop1: {
