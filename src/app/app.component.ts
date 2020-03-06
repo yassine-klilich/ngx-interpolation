@@ -25,13 +25,16 @@ export class AppComponent {
     // let input: string = "Lorem ipsum {{prop5.method_4_of_prop5()()()}} sit amet"; // ==> Lorem ipsum Lorem ipsum sit amet
     // let input: string = "Lorem ipsum {{method_2()().method()}} sit amet"; // ==> Lorem ipsum 456 sit amet
     // let input: string = "{{1 - 2 + '4'}}"; // ==> -14
+    // let input: string = "{{(3 * 2) + 5}}"; // ==> 11
+    // let input: string = "{{3 * 2 + 5}}"; // ==> 11
+    // let input: string = "{{(3 + 2) * 5}}"; // ==> 25
     // let input: string = "{{1 - 2 + method_2()().method()}}"; // ==> 455
     // let input: string = "{{[1, 2, 3]}}"; // ==> 1,2,3
     // let input: string = "{{[1, 2, 3].join('')}}"; // ==> 123
-		let input: string = "{{prop1.prop2['prop3']}}"; // prop_3
+		// let input: string = "{{prop1.prop2['prop3']}}"; // prop_3
 		// let input: string = "{{({ top: 10 })}}"; // ==> [object Object]     not quoted
 		// let input: string = "{{({ 'top': 10 })}}"; // ==> [object Object]     quoted
-		// let input: string = "{{{ top: 10 }.top}}";	// ==> 10
+		let input: string = "{{{ top: 10 }.top}}";	// ==> 10
 
     let context: any = {
       prop1: {

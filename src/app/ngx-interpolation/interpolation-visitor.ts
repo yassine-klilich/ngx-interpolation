@@ -172,9 +172,12 @@ export class InterpolationVisitor implements AstVisitor {
 
   // LiteralMap
   visitLiteralMap(ast: LiteralMap, context: any) {
-		// const values: Array<any> = ast.values.map(ast => this._visit(ast, context));
-		// const keys: Array<string> = ;
-    throw new Error("Method not implemented.");
+		let obj: Object = new Object();
+		ast.values.forEach((value: AST, index: number)=>{
+			obj[ast.keys[index].key] = this._visit(value, context);
+		})
+
+    return obj;
   }
 
   // LiteralPrimitive
