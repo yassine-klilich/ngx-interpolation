@@ -30,7 +30,7 @@ import {
 
 export class InterpolationVisitor implements AstVisitor {
 
-	private _isSafedPropertyRead: boolean = true;
+	private _isSafeAccess: boolean = true;
 
   // Interpolation
   visitInterpolation(ast: Interpolation, context: any) {
@@ -42,14 +42,14 @@ export class InterpolationVisitor implements AstVisitor {
   visitPropertyRead(ast: PropertyRead, context: any) {
 		let _context: any = this._visit(ast.receiver, context);
 
-    return this._isSafedPropertyRead ? _context[ast.name] : null;
+    return this._isSafeAccess ? _context[ast.name] : null;
   }
 
   // SafePropertyRead
   visitSafePropertyRead(ast: SafePropertyRead, context: any) {
     let _context: any = this._visit(ast.receiver, context);
 		if(_context == null || _context == undefined){
-			this._isSafedPropertyRead = false;
+			this._isSafeAccess = false;
 			return null;
 		}
 
@@ -82,7 +82,18 @@ export class InterpolationVisitor implements AstVisitor {
 
   // SafeMethodCall
   visitSafeMethodCall(ast: SafeMethodCall, context: any) {
-    throw new Error("Method not implemented.");
+    const args: Array<any> = this._visitAll(ast.args, context);
+    let _context: any = this._visit(ast.receiver, context);
+
+		if(_context == null || _context == undefined){
+			this._isSafeAccess = false;
+			return null;
+		}
+    if(typeof _context[ast.name] !== 'function'){
+      throw new TypeError(`_ctx.${ast.name} is not a function`);
+		}
+
+    return _context[ast.name].apply(_context, args);
   }
 
   // Binary
@@ -161,7 +172,7 @@ export class InterpolationVisitor implements AstVisitor {
 
   // ImplicitReceiver
   visitImplicitReceiver(ast: ImplicitReceiver, context: any) {
-		this._isSafedPropertyRead = true;
+		this._isSafeAccess = true;
 		return context;
   }
 
