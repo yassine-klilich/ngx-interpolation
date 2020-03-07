@@ -12,6 +12,9 @@ export class AppComponent {
 
     ////------------------- Some Test Cases That I need to support for my library -------------------\\\\
 
+		// let input: string = "{{prop1?.prop2.prop3}}";
+		// let input: string = "{{prop10.prop20.prop30.prop40.prop50.prop60 + prop1.prop2.prop3?.prop4.prop5.prop6}}";
+
     // let input: string = "This is {{prop4}}"; // ==> This is Lorem ipsum
     // let input: string = "This is {{prop1.prop2.prop3}}"; // ==> This is prop_3
     // let input: string = "Lorem ipsum {{method_1('dolor')}} sit amet"; // ==> Lorem ipsum dolor sit amet
@@ -38,38 +41,34 @@ export class AppComponent {
 		// let input: string = "{{(prop4 == 'prop_3') ? true : false}}";	// ==> false
 		// let input: string = "{{(prop1 == 'prop_3') ? true : false}}";	// ==> true
 		// let input: string = "{{(prop1.prop2.prop3 == 'prop_3') ? true : false}}";	// ==> true
-		let input: string = "{{(prop4 == 'Lorem ipsum') ? true : false}}";	// ==> true
+		// let input: string = "{{(prop4 == 'Lorem ipsum') ? true : false}}";	// ==> true
 
-    let context: any = {
-      prop1: {
-        prop2: {
-          prop3: 'prop_3'
-        },
-        toString: function() { return `${this.prop2.prop3}` }
-      },
-      prop4: "Lorem ipsum",
-      prop5: {
-        method_1_of_prop5: () => 'Holla',
-        method_2_of_prop5: ()=> ({prop: "READ OBJECT'S PROPERTY RETURNED FROM A METHOD", method: () => 'EXECUTE ME' }),
-        method_3_of_prop5: () => {
-          return function(){ return 'Hola Primo' }
-        },
-        method_4_of_prop5: () => {
-          return function(){ return function(){ return context.prop4 }; }
-        }
-      },
-      propNum: 10,
-      method_1: param => param,
-      method_2: ()=>{
-        return function(){
-          return {
-            method: ()=>{
-              return 456
-            }
-          }
-        }
-      }
-    };
+		let input: string = "{{prop1.prop2.prop3?.prop4.prop5.prop6 + prop10.prop20.prop30.prop40.prop50.prop60}}";	// ==>
+
+		let context: any = {
+			prop1: {
+				prop2: {
+					// prop3: {
+						prop4: {
+							prop5: {
+								prop6: 'Holla Primo !!!'
+							}
+						}
+					// }
+				}
+			},
+			prop10: {
+				prop20: {
+					prop30: {
+						prop40: {
+							prop50: {
+								prop60: 'Hello World'
+							}
+						}
+					}
+				}
+			}
+		}
 
     let result = this._interpolation.interpolate(input, context);
 
@@ -123,3 +122,46 @@ export class AppComponent {
 //
 // let input: string = "I'm {{fullName.name}} from {{getCountry(fullName.lastName)}}";
 // let input: string = "I'm {{fullName.toString()}} from {{getCountry(fullName.name, 'Morocco')}}";
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let context: any = {
+// 	prop1: {
+// 		prop2: {
+// 			prop3: 'prop_3'
+// 		},
+// 		toString: function() { return `${this.prop2.prop3}` },
+// 	},
+// 	prop4: "Lorem ipsum",
+// 	prop5: {
+// 		method_1_of_prop5: () => 'Holla',
+// 		method_2_of_prop5: ()=> ({prop: "READ OBJECT'S PROPERTY RETURNED FROM A METHOD", method: () => 'EXECUTE ME' }),
+// 		method_3_of_prop5: () => {
+// 			return function(){ return 'Hola Primo' }
+// 		},
+// 		method_4_of_prop5: () => {
+// 			return function(){ return function(){ return context.prop4 }; }
+// 		}
+// 	},
+// 	propNum: 10,
+// 	method_1: param => param,
+// 	method_2: ()=>{
+// 		return function(){
+// 			return {
+// 				method: ()=>{
+// 					return 456
+// 				}
+// 			}
+// 		}
+// 	}
+// };

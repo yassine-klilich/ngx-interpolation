@@ -30,6 +30,8 @@ import {
 
 export class InterpolationVisitor implements AstVisitor {
 
+	private _isSafedPropertyRead: boolean = true;
+
   // Interpolation
   visitInterpolation(ast: Interpolation, context: any) {
     console.log(ast);
@@ -38,37 +40,37 @@ export class InterpolationVisitor implements AstVisitor {
 
   // PropertyRead
   visitPropertyRead(ast: PropertyRead, context: any) {
-    let _context: any = context;
+		let _context: any = this._visit(ast.receiver, context);
 
-    if(!(ast.receiver instanceof ImplicitReceiver)) {
-      _context = this._visit(ast.receiver, context);
-    }
-
-    return _context[ast.name];
+    return this._isSafedPropertyRead ? _context[ast.name] : null;
   }
+
+  // SafePropertyRead
+  visitSafePropertyRead(ast: SafePropertyRead, context: any) {
+    let _context: any = this._visit(ast.receiver, context);
+		if(_context == null || _context == undefined){
+			this._isSafedPropertyRead = false;
+			return null;
+		}
+
+		return _context[ast.name];
+	}
 
   // MethodCall
   visitMethodCall(ast: MethodCall, context: any) {
     const args: Array<any> = this._visitAll(ast.args, context);
-    let _context: any = context;
+    let _context: any = this._visit(ast.receiver, context);
 
-    if(!(ast.receiver instanceof ImplicitReceiver)) {
-      _context = this._visit(ast.receiver, context);
-    }
     if(typeof _context[ast.name] !== 'function'){
       throw new TypeError(`_ctx.${ast.name} is not a function`);
-    }
+		}
 
-    let result: any = _context[ast.name].apply(_context, args);
-
-    return result;
+    return _context[ast.name].apply(_context, args);
   }
 
   // FunctionCall
   visitFunctionCall(ast: FunctionCall, context: any) {
     const args: Array<any> = this._visitAll(ast.args, context);
-    // let result: FunctionCallResult =
-
     let result: any = this._visit(ast.target, context);
 
     while(typeof result == 'function'){
@@ -78,11 +80,16 @@ export class InterpolationVisitor implements AstVisitor {
     return result;
   }
 
+  // SafeMethodCall
+  visitSafeMethodCall(ast: SafeMethodCall, context: any) {
+    throw new Error("Method not implemented.");
+  }
+
   // Binary
   visitBinary(ast: Binary, context: any) {
+		let leftValue: any = this._visit(ast.left, context);
     let rightValue: any = this._visit(ast.right, context);
-    let leftValue: any = this._visit(ast.left, context);
-    let result: any;
+		let result: any;
 
     switch (ast.operation) {
       case '+':
@@ -154,7 +161,8 @@ export class InterpolationVisitor implements AstVisitor {
 
   // ImplicitReceiver
   visitImplicitReceiver(ast: ImplicitReceiver, context: any) {
-    throw new Error("Method not implemented.");
+		this._isSafedPropertyRead = true;
+		return context;
   }
 
   // KeyedRead
@@ -212,16 +220,6 @@ export class InterpolationVisitor implements AstVisitor {
 
   // Quote
   visitQuote(ast: Quote, context: any) {
-    throw new Error("Method not implemented.");
-  }
-
-  // SafeMethodCall
-  visitSafeMethodCall(ast: SafeMethodCall, context: any) {
-    throw new Error("Method not implemented.");
-  }
-
-  // SafePropertyRead
-  visitSafePropertyRead(ast: SafePropertyRead, context: any) {
     throw new Error("Method not implemented.");
   }
 
