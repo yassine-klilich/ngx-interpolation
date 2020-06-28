@@ -284,3 +284,7 @@ let interpolationConfig = {
 
 interpolation.interpolate("%firstName% %lastName%", context, interpolationConfig); // => John Doe
 ```
+
+# License
+
+Licensed under the [MIT License](LICENSE).
