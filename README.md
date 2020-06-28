@@ -287,4 +287,4 @@ interpolation.interpolate("%firstName% %lastName%", context, interpolationConfig
 
 # License
 
-Licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](./projects/ngx-interpolation/LICENSE).
