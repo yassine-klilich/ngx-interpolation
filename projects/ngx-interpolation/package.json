@@ -1,8 +1,9 @@
 {
   "name": "ngx-interpolation",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "peerDependencies": {
+    "@angular/compiler": "^9.0.7",
     "@angular/core": "^9.0.7",
     "tslib": "^1.10.0"
   },
