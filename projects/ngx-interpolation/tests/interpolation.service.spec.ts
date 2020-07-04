@@ -40,6 +40,10 @@ describe('NgxInterpolation', () => {
     expect(service).toBeTruthy();
   });
 
+  fit('should return Hello', () => {
+    expect(service.interpolate("Hello", context)).toBe('Hello');
+  });
+
   it('should return 10', () => {
     let context: any = {
       methodCall01: ()=>{

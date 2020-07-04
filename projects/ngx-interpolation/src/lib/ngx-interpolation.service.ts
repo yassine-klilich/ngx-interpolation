@@ -25,7 +25,7 @@ export class NgxInterpolation {
     let astWithSource: ASTWithSource = this._parser.parseInterpolation(input, context, 0, interpolationConfig);
 
     if(!astWithSource)
-      return null;
+      return input;
 
     if(astWithSource.errors.length)
       throw astWithSource.errors;
