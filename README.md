@@ -1,6 +1,6 @@
 # Ngx-Interpolation
 
-[![Generic badge](https://img.shields.io/badge/version-0.0.7-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
+[![Generic badge](https://img.shields.io/badge/npm%20package-v0.0.7-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
 
 Ngx-Interpolation is an Angular lightweight library to interprate string interpolation expressions.
 
