@@ -1,5 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Parser, Lexer, ASTWithSource, InterpolationConfig, DEFAULT_INTERPOLATION_CONFIG } from '@angular/compiler';
+import { Injectable, PipeTransform } from '@angular/core';
+import {
+  Parser,
+  Lexer,
+  ASTWithSource,
+  InterpolationConfig,
+  DEFAULT_INTERPOLATION_CONFIG,
+  Interpolation
+} from '@angular/compiler';
 import { NgxInterpolationVisitor } from './ngx-interpolation.visitor';
 
 @Injectable({
@@ -19,16 +26,21 @@ export class NgxInterpolation {
    * @param context Context to witch variables in the string input are resolved against.
    * @param interpolationConfig Overrides the default encapsulation start and end delimiters (`{{` and `}}`).
    * @returns Interpolated string value.
+   * @throws Array of error when expression is invalid.
    */
-  interpolate(input: string, context?: any, interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG): string {
+  interpolate(input: string, context?: any, interpolationConfig?: InterpolationConfig | undefined | null): string {
+    if(interpolationConfig == null) {
+      interpolationConfig = DEFAULT_INTERPOLATION_CONFIG;
+    }
     let interpolatedString: string;
-    let astWithSource: ASTWithSource = this._parser.parseInterpolation(input, context, 0, interpolationConfig);
+    let astWithSource: ASTWithSource | null = this._parser.parseInterpolation(input, context, 0, null, interpolationConfig);
 
     if(!astWithSource)
       return input;
 
-    if(astWithSource.errors.length)
+    if(astWithSource.errors.length) {
       throw astWithSource.errors;
+    }
     else {
       interpolatedString = this._resolve(astWithSource.ast.visit(new NgxInterpolationVisitor()), context);
     }
@@ -36,7 +48,7 @@ export class NgxInterpolation {
     return interpolatedString;
   }
 
-  private _resolve(interpolation: import('@angular/compiler').Interpolation, context: any): string {
+  private _resolve(interpolation: Interpolation, context: any): string {
     const strings: Array<string> = interpolation.strings;
     const expressions: Array<any> = interpolation.expressions;
     let parts: Array<string> = new Array();

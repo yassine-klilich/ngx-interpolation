@@ -1,6 +1,6 @@
 # Ngx-Interpolation
 
-[![Generic badge](https://img.shields.io/badge/npm%20package-v0.0.7-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
+[![Generic badge](https://img.shields.io/badge/npm%20package-v1.0.4-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
 
 Ngx-Interpolation is an Angular lightweight library to interprate string interpolation expressions.
 
@@ -17,30 +17,32 @@ Ngx-Interpolation uses Angular string interpolation parser to parse your express
     - [Literal Array](#literalarray)
     - [Literal Map](#literalmap)
     - [Binary](#binary)
+    - [Conditional](#conditional)
+    - [Prefix Not](#prefixnot)
     - [Property Read](#propertyread)
     - [Keyed Read](#keyedread)
-    - [Method Call](#methodcall)
-    - [Function Call](#functioncall)
+    - [Call Function](#call)
     - [Safe Property Read](#safepropertyread)
-    - [Safe Method Call](#safemethodcall)
-    - [Conditional](#conditional)
+    - [Safe Keyed Read](#safekeyedread)
+    - [Safe Call Function](#safecall)
   - [Custom encapsulation delimiters](#delimiters)
 
 # [Supported Interpolation Expressions](#support)
 
-|Expression name     |Expression syntax                    |
-|--------------------|-------------------------------------|
-|Literal Primitive   | 'string, number or boolean values'  |
-|Literal Array       | [1, 'Hello', ['bye'], true]         |
-|Literal Map         | ({key: 'value'})                    |
-|Binary              | 1 + 1 * 2                           |
-|Property Read       | prop                                |
-|Keyed Read          | obj['key']                          |
-|Method Call         | method()                            |
-|Function Call       | method()()                          |
-|Safe Property Read  | obj?.prop                           |
-|Safe Method Call    | obj?.method()                       |
-|Conditional         | (expression) ? true : false         |
+|Expression name              |Expression syntax                               |
+|-----------------------------|------------------------------------------------|
+|Literal Primitive            | 'string, number or boolean values'             |
+|Literal Array                | [1, 'Hello', ['bye'], true]                    |
+|Literal Map                  | ({key: 'value'})                               |
+|Binary                       | 1 + 1 * 2                                      |
+|Conditional                  | (expression) ? true : false                    |
+|Prefix Not                   | The exclamation logic mark, example: !true     |
+|Property Read                | prop                                           |
+|Keyed Read                   | obj['key']                                     |
+|Call (Method or Function)    | callFunction()                                 |
+|Safe Property Read           | obj?.prop                                      |
+|Safe Keyed Read              | obj?.['prop']                                  |
+|Safe Call                    | callFunction?.()                               |
 
 # [Installation](#installation)
 
@@ -49,7 +51,7 @@ Install Ngx-Interpolation library from the npm command :
 npm install ngx-interpolation
 ```
 
-:warning: Currently the Ngx-Interpolation built with Angular 9. Please submit an issue if you encounted any versioning issue.
+:warning: Currently the Ngx-Interpolation built with Angular 15. Please submit an issue if you encounted any versioning issue.
 
 # [How to use](#how-to-use)
 
@@ -118,6 +120,34 @@ import { NgxInterpolation } from 'ngx-interpolation';
   interpolation.interpolate("{{(1 + 2) * 3}}"); // => 9
   interpolation.interpolate("{{3 + 4 + '5'}}"); // => 75
   ```
+  
+  - ### [Conditional](#conditional)
+  
+  Conditional expression is the ternary condition syntax.
+
+  Examples :
+  ```typescript
+  let interpolation: NgxInterpolation = new NgxInterpolation();
+  let context: any = {
+    firstName: 'John',
+    lastName: 'Debik',
+  }
+  
+  interpolation.interpolate("{{(firstName === 'John') ? true : false}}", context); // => true
+  interpolation.interpolate("{{(lastName === 'Doe') ? true : false}}", context); // => false
+  ```
+  
+  - ### [Prefix Not](#prefixnot)
+  
+  The exclamation logic mark.
+
+  Examples :
+  ```typescript
+  let interpolation: NgxInterpolation = new NgxInterpolation();
+  
+  interpolation.interpolate("{{!true}}", context); // => false
+  interpolation.interpolate("{{!!true}}", context); // => true
+  ```
    
   - ### [Property Read](#propertyread)
   
@@ -157,11 +187,10 @@ import { NgxInterpolation } from 'ngx-interpolation';
   interpolation.interpolate("{{firstName}} is the husband of {{wife['fullName']}}", context); // => John is the husband of Maria Doe
   ```
   
-  - ### [Method Call](#methodcall)
+  - ### [Call Function](#call)
   
-  Method Call expression is when you call a method from a context given.
+  Function Call expression
 
-  Examples :
   ```typescript
   let interpolation: NgxInterpolation = new NgxInterpolation();
   let context: any = {
@@ -177,12 +206,7 @@ import { NgxInterpolation } from 'ngx-interpolation';
   
   interpolation.interpolate("Hello! my name is {{getFullName()}}, I'm from {{country('Morocco')}}", context); // => Hello! my name is John Doe, I'm from Morocco
   ```
-  
-  - ### [Function Call](#functioncall)
-  
-  Function Call expression is call function.
 
-  Examples :
   ```typescript
   let interpolation: NgxInterpolation = new NgxInterpolation();
   let context: any = {
@@ -230,7 +254,31 @@ import { NgxInterpolation } from 'ngx-interpolation';
   interpolation.interpolate("{{prop5?.prop6?.prop7.prop8}}", context); // => <RETURNS AN EMPTY STRING>
   ```
   
-  - ### [Safe Method Call](#safemethodcall)
+  - ### [Safe Keyed Read](#safekeyedread)
+  
+  Safe Keyed Read expression
+
+  Examples :
+  ```typescript
+  let interpolation: NgxInterpolation = new NgxInterpolation();
+  let context: any = {
+    prop1: {
+      prop2: {
+        prop3: "Salamo Alikoum!"
+      }
+    },
+    prop5: {
+      prop6: {
+        prop00008: 'Alohaaa !'
+      }
+    }
+  }
+  
+  interpolation.interpolate("{{prop1?.prop2?.['prop3']}}", context); // => Salamo Alikoum!
+  interpolation.interpolate("{{prop5?.prop6?.['prop7'].prop8}}", context); // => <RETURNS AN EMPTY STRING>
+  ```
+  
+  - ### [Safe Function Call](#safecall)
   
   Safe Method Call expression
 
@@ -248,22 +296,6 @@ import { NgxInterpolation } from 'ngx-interpolation';
   
   interpolation.interpolate("{{prop1?.method('John Doe')}}", context); // => John Doe
   interpolation.interpolate("{{prop2?.method('John Doe')}}", context); // => <RETURNS AN EMPTY STRING>
-  ```
-  
-  - ### [Conditional](#conditional)
-  
-  Conditional expression is the ternary condition syntax
-
-  Examples :
-  ```typescript
-  let interpolation: NgxInterpolation = new NgxInterpolation();
-  let context: any = {
-    firstName: 'John',
-    lastName: 'Debik',
-  }
-  
-  interpolation.interpolate("{{(firstName === 'John') ? true : false}}", context); // => true
-  interpolation.interpolate("{{(lastName === 'Doe') ? true : false}}", context); // => false
   ```
 
 ## [Custom encapsulation delimiters](#delimiters)
@@ -287,4 +319,8 @@ interpolation.interpolate("%firstName% %lastName%", context, interpolationConfig
 
 # License
 
+<<<<<<< HEAD
+Licensed under the [MIT License](./projects/ngx-interpolation/LICENSE).
+=======
 Licensed under the [MIT License](LICENSE).
+>>>>>>> b0c9bd7a666402c4ab7e8af91e744e34f32497bd

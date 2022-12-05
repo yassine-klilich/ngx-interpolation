@@ -1,15 +1,19 @@
 {
   "name": "ngx-interpolation",
-  "version": "0.0.7",
+  "version": "1.0.4",
   "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/yassine-klilich/ngx-interpolation"
   },
-  "peerDependencies": {
-    "@angular/compiler": "^9.0.7",
-    "@angular/core": "^9.0.7",
-    "tslib": "^1.10.0"
-  },
-  "keywords": ["angular", "angular 9", "library", "string", "interpolation", "ast", "visitor", "lightweight", "package", "interpolate", "interprate"]
+  "homepage": "https://github.com/yassine-klilich/ngx-interpolation#readme",
+  "readme": "https://github.com/yassine-klilich/ngx-interpolation#readme",
+  "keywords": ["angular", "angular 15", "library", "string", "interpolation", "ast", "visitor", "lightweight", "package", "interpolate", "interprate"]
 }
