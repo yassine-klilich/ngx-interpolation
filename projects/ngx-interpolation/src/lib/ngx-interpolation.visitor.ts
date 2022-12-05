@@ -197,12 +197,12 @@ export class NgxInterpolationVisitor implements AstVisitor {
     let obj: any = this.visit(ast.receiver, context);
     let key: any = this.visit(ast.key, context);
 
-    if(obj == null || obj == undefined){
+    if(obj == null || obj[key] == null){
       this._isSafeAccess = false;
       return null;
     }
 
-    return obj[key];
+    return this._isSafeAccess ? obj[key] : null;
   }
 
   // PrefixNot
