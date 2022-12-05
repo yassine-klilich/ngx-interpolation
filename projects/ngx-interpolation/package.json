@@ -1,6 +1,6 @@
 {
   "name": "ngx-interpolation",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^15.0.0",
@@ -13,5 +13,6 @@
     "type": "git",
     "url": "https://github.com/yassine-klilich/ngx-interpolation"
   },
-  "keywords": ["angular", "angular 9", "library", "string", "interpolation", "ast", "visitor", "lightweight", "package", "interpolate", "interprate"]
+  "readme": "README.md",
+  "keywords": ["angular", "angular 15", "library", "string", "interpolation", "ast", "visitor", "lightweight", "package", "interpolate", "interprate"]
 }
