@@ -13,6 +13,7 @@
     "type": "git",
     "url": "https://github.com/yassine-klilich/ngx-interpolation"
   },
-  "readme": "README.md",
+  "homepage": "https://github.com/yassine-klilich/ngx-interpolation#readme",
+  "readme": "https://github.com/yassine-klilich/ngx-interpolation#readme",
   "keywords": ["angular", "angular 15", "library", "string", "interpolation", "ast", "visitor", "lightweight", "package", "interpolate", "interprate"]
 }
