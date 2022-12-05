@@ -1,6 +1,6 @@
 {
   "name": "ngx-interpolation",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^15.0.0",
