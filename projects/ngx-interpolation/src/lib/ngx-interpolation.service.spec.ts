@@ -381,27 +381,22 @@ describe('NgxInterpolation', () => {
     expect(service.interpolate("{{arr[0]}}", context)).toBe("10,20,30");
   });
 
-  // it(`should return HELLO`, () => {
-  //   expect(service.interpolate("{{'hello' | uppercase}}", context, null, [UpperCasePipe])).toBe("HELLO");
-  // });
+  it(`should interpolate SafeKeyedRead`, () => {
+    let context: any = {
+      prop1: {
+        prop2: {
+          prop3: "Salam Alikoum!"
+        }
+      },
+      prop5: {
+        prop6: {
+          prop00008: 'Alohaaa !'
+        }
+      }
+    }
 
-  // it(`should throw error (Pipe class for 'uppercase' is not provided)`, () => {
-  //   expect(() => service.interpolate("{{'hello' | uppercase}}", context, null)).toThrowError("Pipe class for 'uppercase' is not provided");
-  // });
-
-  // it(`should return AHMAD`, () => {
-  //   const context: any = {
-  //     firstName: "Ahmad"
-  //   }
-  //   expect(service.interpolate("{{firstName | uppercase}}", context, null, [UpperCasePipe])).toBe("AHMAD");
-  // });
-
-  // fit(`should return AHMAD`, () => {
-  //   const context: any = {
-  //     today: Date.now()
-  //   }
-  //   // let dd = new DatePipe('en-US')
-  //   expect(service.interpolate("{{today | date:'fullDate'}}", context, null, [DatePipe])).toBe("AHMAD");
-  // });
+    expect(service.interpolate("{{prop1?.prop2?.['prop3']}}", context)).toBe("Salam Alikoum!");
+    expect(service.interpolate("{{prop5?.prop6?.['prop7'].prop8}}", context)).toBe("");
+  });
 
 });
