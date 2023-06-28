@@ -399,4 +399,19 @@ describe('NgxInterpolation', () => {
     expect(service.interpolate("{{prop5?.prop6?.['prop7'].prop8}}", context)).toBe("");
   });
 
+  it('NonNullAssert: Must return Hello', () => {
+    let context: any = {
+      prop: {
+        prop: "Hello"
+      }
+    }
+
+    expect(service.interpolate("{{prop!.prop}}", context)).toBe("Hello");
+  })
+
+  it('NonNullAssert: Must throw an error prop is not defined', () => {
+    let context: any = { }
+
+    expect(()=>{service.interpolate("{{prop!}}", context)}).toThrowError(`Property 'prop' does not exist`);
+  })
 });

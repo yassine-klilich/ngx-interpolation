@@ -1,6 +1,6 @@
 # Ngx-Interpolation
 
-[![Generic badge](https://img.shields.io/badge/npm%20package-v1.0.4-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
+[![Generic badge](https://img.shields.io/badge/npm%20package-v2.0.0-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
 
 Ngx-Interpolation is an Angular lightweight library to interprate string interpolation expressions.
 
@@ -8,6 +8,7 @@ Ngx-Interpolation uses Angular string interpolation parser to parse your express
 
 # Table of content
 
+- [Angular versions](#versions)
 - [Supported Interpolation Expressions](#support)
 - [Installation](#installation)
 - [How to use](#how-to-use)
@@ -21,11 +22,21 @@ Ngx-Interpolation uses Angular string interpolation parser to parse your express
     - [Prefix Not](#prefixnot)
     - [Property Read](#propertyread)
     - [Keyed Read](#keyedread)
+    - [Non Null Assert](#nonnullassert)
     - [Call Function](#call)
     - [Safe Property Read](#safepropertyread)
     - [Safe Keyed Read](#safekeyedread)
     - [Safe Call Function](#safecall)
   - [Custom encapsulation delimiters](#delimiters)
+
+# [Angular versions](#versions)
+
+- Make sure you are using the right ngx-interpolation version depending on Angular version.
+
+ngx-interpolation           | Angular version
+----------------------------|-------------------
+v1.0.4                      | v15.x
+v2.0.0                      | v16.x
 
 # [Supported Interpolation Expressions](#support)
 
@@ -187,6 +198,20 @@ import { NgxInterpolation } from 'ngx-interpolation';
   interpolation.interpolate("{{firstName}} is the husband of {{wife['fullName']}}", context); // => John is the husband of Maria Doe
   ```
   
+  - ### [Non Null Assert](#nonnullassert)
+  
+  the non-null assertion operator (!) is used to indicate that a variable is guaranteed to be non-null or not undefined.
+
+  Examples :
+  ```typescript
+  let interpolation: NgxInterpolation = new NgxInterpolation();
+  let context: any = {
+    firstName: 'John'
+  }
+
+  interpolation.interpolate("{{firstName!}}", context); // => John
+  ```
+  
   - ### [Call Function](#call)
   
   Function Call expression
@@ -319,8 +344,4 @@ interpolation.interpolate("%firstName% %lastName%", context, interpolationConfig
 
 # License
 
-<<<<<<< HEAD
-Licensed under the [MIT License](./projects/ngx-interpolation/LICENSE).
-=======
 Licensed under the [MIT License](LICENSE).
->>>>>>> b0c9bd7a666402c4ab7e8af91e744e34f32497bd

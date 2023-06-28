@@ -1,3 +1,4 @@
+import { UpperCasePipe } from '@angular/common';
 import {
   AstVisitor,
   AST,
@@ -16,13 +17,12 @@ import {
   SafePropertyRead,
   Call,
   SafeCall,
-
   SafeKeyedRead,
   PrefixNot,
+  NonNullAssert,
 
   // Undiscovered
   Chain,
-  NonNullAssert,
   KeyedWrite,
   PropertyWrite,
   ThisReceiver,
@@ -33,6 +33,11 @@ import {
 export class NgxInterpolationVisitor implements AstVisitor {
 
   private _isSafeAccess: boolean = true;
+  private _pipe: any;
+
+  constructor(pipe?: UpperCasePipe) {
+    this._pipe = pipe;
+  }
 
   // Interpolation
   visitInterpolation(ast: Interpolation, context: any) {
@@ -223,7 +228,18 @@ export class NgxInterpolationVisitor implements AstVisitor {
 
   // NonNullAssert
   visitNonNullAssert(ast: NonNullAssert, context: any) {
-    throw new Error("Method not implemented.");
+    const value: any = this.visit(ast.expression, context);
+
+    if (value == null) {
+      let name: string = "{}";
+      if (ast.expression instanceof SafePropertyRead || ast.expression instanceof PropertyRead || ast.expression instanceof PropertyWrite) {
+        name = ast.expression.name;
+      }
+
+      throw new TypeError(`Property '${name}' does not exist`);
+    }
+
+    return value
   }
 
   // PropertyWrite
