@@ -1,6 +1,6 @@
 # Ngx-Interpolation
 
-[![Generic badge](https://img.shields.io/badge/npm%20package-v2.0.2-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
+[![Generic badge](https://img.shields.io/badge/npm%20package-v2.0.3-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
 
 Ngx-Interpolation is an Angular lightweight library to interprate string interpolation expressions.
 
@@ -31,12 +31,12 @@ Ngx-Interpolation uses Angular string interpolation parser to parse your express
 
 # [Angular versions](#versions)
 
-- Make sure you are using the right ngx-interpolation version depending on Angular version.
+:warning: Make sure you are using the right ngx-interpolation version depending on Angular version.
 
-| ngx-interpolation | Angular version |
-| ----------------- | --------------- |
-| v1.0.4            | v15.x           |
-| v2.0.2            | v16.x , v17.x   |
+| ngx-interpolation | Angular version       |
+| ----------------- | --------------------- |
+| v1.0.4            | v15.x                 |
+| v2.0.3            | v16.x , v17.x, v18.x, |
 
 # [Supported Interpolation Expressions](#support)
 
@@ -62,8 +62,6 @@ Install Ngx-Interpolation library from the npm command :
 ```
 npm install ngx-interpolation
 ```
-
-:warning: Currently the Ngx-Interpolation built with Angular 15. Please submit an issue if you encounted any versioning issue.
 
 # [How to use](#how-to-use)
 
