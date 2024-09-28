@@ -36,7 +36,7 @@ Ngx-Interpolation uses Angular string interpolation parser to parse your express
 | ngx-interpolation | Angular version |
 | ----------------- | --------------- |
 | v1.0.4            | v15.x           |
-| v2.0.0            | v16.x , v17.x   |
+| v2.0.1            | v16.x , v17.x   |
 
 # [Supported Interpolation Expressions](#support)
 
