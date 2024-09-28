@@ -31,7 +31,7 @@ Ngx-Interpolation uses Angular string interpolation parser to parse your express
 
 # [Angular versions](#versions)
 
-- Make sure you are using the right ngx-interpolation version depending on Angular version.
+:warning: Make sure you are using the right ngx-interpolation version depending on Angular version.
 
 | ngx-interpolation | Angular version |
 | ----------------- | --------------- |
@@ -62,8 +62,6 @@ Install Ngx-Interpolation library from the npm command :
 ```
 npm install ngx-interpolation
 ```
-
-:warning: Currently the Ngx-Interpolation built with Angular 15. Please submit an issue if you encounted any versioning issue.
 
 # [How to use](#how-to-use)
 
