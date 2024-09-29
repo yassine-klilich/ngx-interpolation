@@ -33,11 +33,6 @@ import {
 export class NgxInterpolationVisitor implements AstVisitor {
 
   private _isSafeAccess: boolean = true;
-  private _pipe: any;
-
-  constructor(pipe?: UpperCasePipe) {
-    this._pipe = pipe;
-  }
 
   // Interpolation
   visitInterpolation(ast: Interpolation, context: any) {
