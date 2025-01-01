@@ -1,6 +1,6 @@
 # Ngx-Interpolation
 
-[![Generic badge](https://img.shields.io/badge/npm%20package-v2.0.9-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
+[![Generic badge](https://img.shields.io/badge/npm%20package-v3.0.0-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
 
 Ngx-Interpolation is an Angular lightweight library to interprate string interpolation expressions.
 
@@ -27,6 +27,7 @@ Ngx-Interpolation uses Angular string interpolation parser to parse your express
     - [Safe Property Read](#safepropertyread)
     - [Safe Keyed Read](#safekeyedread)
     - [Safe Call Function](#safecall)
+    - [Typeof](#typeof)
   - [Custom encapsulation delimiters](#delimiters)
 
 # [Angular versions](#versions)
@@ -39,23 +40,25 @@ Ngx-Interpolation uses Angular string interpolation parser to parse your express
 | v2.0.5            | v16.x           |
 | v2.0.7            | v17.x           |
 | v2.0.9            | v18.x           |
+| v3.0.0            | v19.x           |
 
 # [Supported Interpolation Expressions](#support)
 
-| Expression name           | Expression syntax                          |
-| ------------------------- | ------------------------------------------ |
-| Literal Primitive         | 'string, number or boolean values'         |
-| Literal Array             | [1, 'Hello', ['bye'], true]                |
-| Literal Map               | ({key: 'value'})                           |
-| Binary                    | 1 + 1 \* 2                                 |
-| Conditional               | (expression) ? true : false                |
-| Prefix Not                | The exclamation logic mark, example: !true |
-| Property Read             | prop                                       |
-| Keyed Read                | obj['key']                                 |
-| Call (Method or Function) | callFunction()                             |
-| Safe Property Read        | obj?.prop                                  |
-| Safe Keyed Read           | obj?.['prop']                              |
-| Safe Call                 | callFunction?.()                           |
+| Expression name           | Expression syntax                      |
+| ------------------------- | -------------------------------------- |
+| Literal Primitive         | `string`, `number` or `boolean` values |
+| Literal Array             | `[1, 'Hello', ['bye'], true]`          |
+| Literal Map               | `({key: 'value'})`                     |
+| Binary                    | `1 + 1 \* 2`                           |
+| Conditional               | `(expression) ? true : false`          |
+| Prefix Not                | The exclamation logic mark: `!`        |
+| Property Read             | `prop`                                 |
+| Keyed Read                | `obj['key']`                           |
+| Call (Method or Function) | `callFunction()`                       |
+| Safe Property Read        | `obj?.prop`                            |
+| Safe Keyed Read           | `obj?.['prop']`                        |
+| Safe Call                 | `callFunction?.()`                     |
+| Typeof                    | `typeof foo`                           |
 
 # [Installation](#installation)
 
@@ -334,6 +337,18 @@ let context: any = {
 
 interpolation.interpolate("{{prop1?.method('John Doe')}}", context); // => John Doe
 interpolation.interpolate("{{prop2?.method('John Doe')}}", context); // => <RETURNS AN EMPTY STRING>
+```
+
+- ### [Typeof](#typeof)
+
+The `typeof` operator expression.
+
+Examples :
+
+```typescript
+const interpolation: NgxInterpolation = new NgxInterpolation();
+
+interpolation.interpolate("{{typeof 'John Doe'}}"); // => string
 ```
 
 ## [Custom encapsulation delimiters](#delimiters)

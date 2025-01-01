@@ -1,4 +1,3 @@
-import { UpperCasePipe } from '@angular/common';
 import {
   AstVisitor,
   AST,
@@ -28,10 +27,10 @@ import {
   ThisReceiver,
   Unary,
   BindingPipe,
+  TypeofExpression,
 } from '@angular/compiler';
 
 export class NgxInterpolationVisitor implements AstVisitor {
-
   private _isSafeAccess: boolean = true;
 
   // Interpolation
@@ -49,7 +48,7 @@ export class NgxInterpolationVisitor implements AstVisitor {
   // SafePropertyRead
   visitSafePropertyRead(ast: SafePropertyRead, context: any) {
     let _context: any = this.visit(ast.receiver, context);
-    if(_context == null || _context == undefined){
+    if (_context == null || _context == undefined) {
       this._isSafeAccess = false;
       return null;
     }
@@ -119,9 +118,9 @@ export class NgxInterpolationVisitor implements AstVisitor {
   // Conditional
   visitConditional(ast: Conditional, context: any) {
     let conditionResult: boolean = this.visit(ast.condition, context);
-    if(conditionResult){
+    if (conditionResult) {
       return this.visit(ast.trueExp, context);
-    }else{
+    } else {
       return this.visit(ast.falseExp, context);
     }
   }
@@ -142,16 +141,18 @@ export class NgxInterpolationVisitor implements AstVisitor {
 
   // LiteralArray
   visitLiteralArray(ast: LiteralArray, context: any) {
-    return ast.expressions.map((expression: AST) => this.visit(expression, context));
+    return ast.expressions.map((expression: AST) =>
+      this.visit(expression, context)
+    );
   }
 
   // LiteralMap
   visitLiteralMap(ast: LiteralMap, context: any) {
     let obj: any = {};
-    ast.values.forEach((value: AST, index: number)=>{
+    ast.values.forEach((value: AST, index: number) => {
       const key = ast.keys[index].key;
       obj[key] = this.visit(value, context);
-    })
+    });
 
     return obj;
   }
@@ -163,13 +164,15 @@ export class NgxInterpolationVisitor implements AstVisitor {
 
   // Call
   visitCall(ast: Call, context: any) {
-    const args: Array<any> = ast.args.map((arg: AST) => this.visit(arg, context));
+    const args: Array<any> = ast.args.map((arg: AST) =>
+      this.visit(arg, context)
+    );
     let _context: any = this.visit(ast.receiver, context);
 
-    if(!this._isSafeAccess) {
-      return null
+    if (!this._isSafeAccess) {
+      return null;
     }
-    if(typeof _context !== 'function'){
+    if (typeof _context !== 'function') {
       throw new TypeError(`_ctx.${_context.name} is not a function`);
     }
 
@@ -178,14 +181,16 @@ export class NgxInterpolationVisitor implements AstVisitor {
 
   // SafeCall
   visitSafeCall(ast: SafeCall, context: any) {
-    const args: Array<any> = ast.args.map((arg: AST) => this.visit(arg, context));
+    const args: Array<any> = ast.args.map((arg: AST) =>
+      this.visit(arg, context)
+    );
     let _context: any = this.visit(ast.receiver, context);
 
-    if(_context == null || _context == undefined){
+    if (_context == null || _context == undefined) {
       this._isSafeAccess = false;
       return null;
     }
-    if(typeof _context !== 'function'){
+    if (typeof _context !== 'function') {
       throw new TypeError(`_ctx.${_context} is not a function`);
     }
 
@@ -197,7 +202,7 @@ export class NgxInterpolationVisitor implements AstVisitor {
     let obj: any = this.visit(ast.receiver, context);
     let key: any = this.visit(ast.key, context);
 
-    if(obj == null || obj[key] == null){
+    if (obj == null || obj[key] == null) {
       this._isSafeAccess = false;
       return null;
     }
@@ -213,12 +218,13 @@ export class NgxInterpolationVisitor implements AstVisitor {
 
   // visit
   visit(ast: AST, context?: any) {
-    return ast.visit(this, context)
+    return ast.visit(this, context);
   }
 
-  // Pipe
-  visitPipe(ast: BindingPipe, context: any) {
-    throw new Error("Method not implemented.");
+  // typeof expres
+  visitTypeofExpresion(ast: TypeofExpression, context: any) {
+    const value = this.visit(ast.expression, context);
+    return typeof value;
   }
 
   // NonNullAssert
@@ -226,25 +232,34 @@ export class NgxInterpolationVisitor implements AstVisitor {
     const value: any = this.visit(ast.expression, context);
 
     if (value == null) {
-      let name: string = "{}";
-      if (ast.expression instanceof SafePropertyRead || ast.expression instanceof PropertyRead || ast.expression instanceof PropertyWrite) {
+      let name: string = '{}';
+      if (
+        ast.expression instanceof SafePropertyRead ||
+        ast.expression instanceof PropertyRead ||
+        ast.expression instanceof PropertyWrite
+      ) {
         name = ast.expression.name;
       }
 
       throw new TypeError(`Property '${name}' does not exist`);
     }
 
-    return value
+    return value;
+  }
+
+  // Pipe
+  visitPipe(ast: BindingPipe, context: any) {
+    throw new Error('Method not implemented.');
   }
 
   // PropertyWrite
   visitPropertyWrite(ast: PropertyWrite, context: any) {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   // ASTWithSource
   visitASTWithSource?(ast: ASTWithSource, context: any) {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   visitUnary?(ast: Unary, context: any) {
@@ -257,11 +272,11 @@ export class NgxInterpolationVisitor implements AstVisitor {
 
   // KeyedWrite
   visitKeyedWrite(ast: KeyedWrite, context: any) {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   // Chain
   visitChain(ast: Chain, context: any) {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 }
