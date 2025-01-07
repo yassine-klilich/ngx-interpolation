@@ -1,6 +1,6 @@
 # Ngx-Interpolation
 
-[![Generic badge](https://img.shields.io/badge/npm%20package-v3.0.0-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
+[![Generic badge](https://img.shields.io/badge/npm%20package-v3.0.1-3FB911.svg)](https://www.npmjs.com/package/ngx-interpolation)
 
 Ngx-Interpolation is an Angular lightweight library to interprate string interpolation expressions.
 
@@ -34,13 +34,13 @@ Ngx-Interpolation uses Angular string interpolation parser to parse your express
 
 :warning: Make sure you are using the right ngx-interpolation version depending on Angular version.
 
-| ngx-interpolation | Angular version |
-| ----------------- | --------------- |
-| v1.0.4            | v15.x           |
-| v2.0.5            | v16.x           |
-| v2.0.7            | v17.x           |
-| v2.0.9            | v18.x           |
-| v3.0.0            | v19.x           |
+| ngx-interpolation                                                 | Angular version |
+| ----------------------------------------------------------------- | --------------- |
+| [v1.0.4](https://www.npmjs.com/package/ngx-interpolation/v/1.0.4) | v15.x           |
+| [v2.0.5](https://www.npmjs.com/package/ngx-interpolation/v/2.0.5) | v16.x           |
+| [v2.0.7](https://www.npmjs.com/package/ngx-interpolation/v/2.0.7) | v17.x           |
+| [v2.0.9](https://www.npmjs.com/package/ngx-interpolation/v/2.0.9) | v18.x           |
+| v3.0.1                                                            | v19.x           |
 
 # [Supported Interpolation Expressions](#support)
 
